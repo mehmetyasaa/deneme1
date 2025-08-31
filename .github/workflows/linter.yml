@@ -49,30 +49,16 @@ jobs:
           # Linter configurations for React Native/TypeScript project
           VALIDATE_ALL_CODEBASE: false  # Only validate changed files
           
-          # JavaScript/TypeScript validation
+          # Enable only the linters we want
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_TYPESCRIPT_ES: true
           VALIDATE_JSX: true
           VALIDATE_TSX: true
-          
-          # React/React Native specific
-          VALIDATE_JAVASCRIPT_STANDARD: false  # Using ESLint instead
-          VALIDATE_TYPESCRIPT_STANDARD: false  # Using ESLint instead
-          
-          # Other file types
           VALIDATE_JSON: true
           VALIDATE_YAML: true
           VALIDATE_MARKDOWN: true
-          VALIDATE_DOCKERFILE: true
-          
-          # Code formatting
           VALIDATE_JAVASCRIPT_PRETTIER: true
           VALIDATE_TYPESCRIPT_PRETTIER: true
-          
-          # Disable some validators that might conflict with Expo/React Native
-          VALIDATE_JSCPD: false  # Can be noisy with React components
-          VALIDATE_CSS: false    # React Native uses StyleSheet
-          VALIDATE_HTML: false   # Not applicable for React Native
           
           # ESLint configuration
           JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
