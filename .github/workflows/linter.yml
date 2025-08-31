@@ -60,10 +60,6 @@ jobs:
           VALIDATE_JAVASCRIPT_PRETTIER: true
           VALIDATE_TYPESCRIPT_PRETTIER: true
           
-          # ESLint configuration
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
-          TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.json
-          
           # Custom linting rules
           FILTER_REGEX_EXCLUDE: '.*(\.expo/.*|\.git/.*|node_modules/.*|dist/.*|build/.*)'
           
