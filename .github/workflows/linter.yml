@@ -1,0 +1,88 @@
+name: Super Linter
+
+# Controls when the workflow will run
+on:
+  # Trigger the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "super-lint"
+  super-lint:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      # Setup Node.js for React Native/Expo project
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Run Super Linter
+      - name: Run Super Linter
+        uses: super-linter/super-linter@v7
+        env:
+          # To report GitHub Actions status checks
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+          # Linter configurations for React Native/TypeScript project
+          VALIDATE_ALL_CODEBASE: false  # Only validate changed files
+          
+          # JavaScript/TypeScript validation
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_JSX: true
+          VALIDATE_TSX: true
+          
+          # React/React Native specific
+          VALIDATE_JAVASCRIPT_STANDARD: false  # Using ESLint instead
+          VALIDATE_TYPESCRIPT_STANDARD: false  # Using ESLint instead
+          
+          # Other file types
+          VALIDATE_JSON: true
+          VALIDATE_YAML: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_DOCKERFILE: true
+          
+          # Code formatting
+          VALIDATE_JAVASCRIPT_PRETTIER: true
+          VALIDATE_TYPESCRIPT_PRETTIER: true
+          
+          # Disable some validators that might conflict with Expo/React Native
+          VALIDATE_JSCPD: false  # Can be noisy with React components
+          VALIDATE_CSS: false    # React Native uses StyleSheet
+          VALIDATE_HTML: false   # Not applicable for React Native
+          
+          # ESLint configuration
+          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
+          TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.json
+          
+          # Custom linting rules
+          FILTER_REGEX_EXCLUDE: '.*(\.expo/.*|\.git/.*|node_modules/.*|dist/.*|build/.*)'
+          
+          # Fail fast
+          DISABLE_ERRORS: false
+          
+          # Log level
+          LOG_LEVEL: INFO
